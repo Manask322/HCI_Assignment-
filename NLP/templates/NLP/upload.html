@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>I_volunteer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Sacramento" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static "NLP/css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "NLP/css/animate.css" %}">
+    <link rel="stylesheet" href="{% static "NLP/css/owl.carousel.min.css" %}">
+
+    <link rel="stylesheet" href="{% static "NLP/fonts/ionicons/css/ionicons.min.css" %}">
+    <link rel="stylesheet" href="{% static "NLP/fonts/fontawesome/css/font-awesome.min.css" %}">
+
+    <link rel="stylesheet" href="{% static "NLP/fonts/flaticon/font/flaticon.css" %} ">
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" href="{% static "NLP/css/style.css" %} ">
+  </head>
+  <body>
+    
+    <header role="banner">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'NLP:home' %}">I_Volunteer</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05" aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarsExample05">
+            <ul class="navbar-nav ml-auto pl-lg-5 pl-0">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'NLP:home' %}">Home</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://www.nsdma.gov.in/" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Donate</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown04">
+                  <a class="dropdown-item" href="https://www.karnatakaone.gov.in/">Karanatka Relief</a>
+                  <a class="dropdown-item" href="http://www.nsdma.gov.in/">Nagaland Relief</a>
+                  <a class="dropdown-item" href="https://donation.cmdrf.kerala.gov.in/">Kerel Relief</a>
+                </div>
+
+              </li>
+              {% if user.is_authenticated %}
+
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'NLP:dashboard' %}">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'NLP:maps' %}">Maps</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'NLP:upload' %}">Upload</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" >Hi {{ user.username }}</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">logout</a>
+              </li>                
+                  {% else %}
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}">login</a>
+                </li>  
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'NLP:create_profile' %}">Sign up</a>
+                  </li>              
+                  {% endif %}
+            </ul>
+            
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- END header -->
+    {% if user.is_authenticated %}             
+    <section class="section-subscribe">
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-md-12 my-3">
+              <h2 class="text-uppercase heading">Upload a Audio File</h2>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    {% block content %}
+                    <form method="post" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                    <input type="file" name="myfile" class="form-control btn-block" >
+                    <button type="submit" class="btn btn-primary btn-block">Upload</button>
+                    </form>
+                    {% endblock %}
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section-subscribe">
+          <div class="container">
+            <div class="row justify-content-center align-items-center">
+              <div class="col-md-12 my-3">
+                <h2 class="text-uppercase heading">Enter Address Manually</h2>
+              </div>
+              <div class="col-md-12">
+                  <div class="row">
+                    <form action="manual_entry/" method="POST">
+                        {% csrf_token %}
+                        Address : <input type="text" name="name">
+                        Remark : <input type="text" name="remark">                      
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                    </form>
+  
+                  </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="section-subscribe">
+            <div class="container">
+              <div>
+                <div class="col-md-12 my-3">
+                  <h2 class="text-uppercase heading">Audio</h2>
+                </div>
+                <div class=""">
+                    <div class="">
+                        <div id='result'>
+                          Your text will  appear here
+                        </div>
+                        <br>
+                        <div id= 'record'>
+                            <button onclick="startConverting()" class='btn btn-info btn-sm' id="re">record</button>
+                            <button class='btn btn-info btn-sm ml-3' value="Send" id="send">Send</button>
+                        </div>
+  
+                        <div id = 'message'></div>
+                        <script>
+                           function startConverting()
+                                  {
+                                    document.getElementById("re").style.visibility = "hidden";   
+                                    var r=document.getElementById('result');
+                                    var spr=new webkitSpeechRecognition();
+                                      spr.continuous=false;
+                                      spr.interimResults=true;
+                                      spr.lang='en-IN';
+                                      spr.start();
+                                      console.log("here")
+                                      var ftr='';
+                                      spr.onresult=function(event){
+                                          var interimTranscripts='';
+                                          for(var i=event.resultIndex;i<event.results.length;i++)
+                                          {
+                                              var transcript=event.results[i][0].transcript;
+                                              console.log(transcript)
+                                              transcript.replace("\n","<br>")
+                                              if(event.results[i].isFinal){
+                                                  ftr+=transcript;
+                                              }
+                                              else
+                                              interimTranscripts+=transcript;
+                                          }
+                                          r.innerHTML=ftr +interimTranscripts + "," ;
+                                      };
+                                      
+                                      spr.onerror=function(event){};
+                                  }
+                                  $(document).ready(function() {
+                                    $("#send").click(function(event){
+                                          $.ajax({
+                                              type:"POST",
+                                              url:"/audio_data/",
+                                              data: {
+                                                      send : $('#result').html() // from form
+                                                      // send : 'manas'
+                                                      },
+                                              success: function(){
+                                                  alert("Audio succesfully Submitted");
+                                                  // $('#message').html("<strong>Audio succesfully Submitted</strong>") 
+                                              }
+                                          });
+                                          // return false; //<---- move it here
+                                    });
+  
+                                  });
+                      
+                        </script>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </section>  
+    {% else %}      
+    <br>
+    <section id="cta" class="wrapper style3">
+				<h2>Please login to Continue</h2>
+				<ul class="actions">
+          <li>
+            <a class="btn btn-info btn-lg" href="{% url 'login' %}">login</a>          
+          </li>
+				</ul>
+			</section>
+    {% endif %}
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md-3 mb-5">
+            <h3>About</h3>
+            <p>Effort to crete a change in society for helping others</p>
+            <p><a href="#">Learn More</a></p>
+          </div>
+          <div class="col-md-3">
+            <h3>Contact &amp; Address</h3>
+            <ul class="list-unstyled footer-link">
+              <li class="d-flex"><span class="mr-3">A:</span><span class="text-white">NITK Hostels,NITK</span></li>
+              <li class="d-flex"><span class="mr-3">T:</span><span class="text-white">+91 9404239451</span></li>
+              <li class="d-flex"><span class="mr-3">E:</span><span class="text-white">contact@ivolunteer.nitk.edu.in</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- END footer -->
+
+    <!-- loader -->
+    <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div>
+
+    <script src="{% static 'NLP/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'NLP/js/popper.min.js' %}"></script>
+    <script src="{% static 'NLP/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'NLP/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'NLP/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'NLP/js/main.js' %}"></script>
+  </body>
+</html>

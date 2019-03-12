@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<style>
+              body{
+                background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+                background: linear-gradient(to right, #25c481, #25b7c4);
+                font-family: 'Roboto', sans-serif;
+              }</style>
+<section>
+  <h1>Dashboard of Events</h1>
+  <div class="tbl-header">
+      <table cellpadding="0" cellspacing="0" border="0">
+          <thead>
+              <tr class="tbl-header">
+                  <th>ID</th>
+                  <th>Address</th>
+                  <th>latitute</th>
+                  <th>longitute</th>
+                  <th>Remarks</th>
+                  <th>Organisastion</th>
+                  <th>Leader</th>
+              </tr>
+          </thead>
+      <tbody  class="tbl-content">
+          {% for add in address %}
+              <tr>
+                  <th>{{add.id}}</th>
+                  <th>{{add.Address}}</th>
+                  <th>{{add.x}}</th>
+                  <th>{{add.y}}</th>
+                  <th>{{add.Remarks}}</th>
+                  <th>{{user.organisation.organisation}}</th>
+                  <th>{{user.username}}</th>
+              </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+  </div>
+</section>
+<script>
+      $(window).on("load resize ", function() {
+          var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+          $('.tbl-header').css({'padding-right':scrollWidth});
+        }).resize();
+</script>
+{% endblock %}
