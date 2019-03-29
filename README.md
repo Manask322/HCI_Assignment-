@@ -2,7 +2,7 @@
 
 # To run the Appication 
 `git clone git@github.com:Manask322/HCI_Assignment-.git` <br>
-`cd HCI_Assignment`<br>
+`cd HCI_Assignment-`<br>
 `pip3 install -r requirements.txt`<br>
 `python3 manage.py makemigrations`<br>
 `python3 manage.py migrate`<br>
