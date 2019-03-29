@@ -21,7 +21,7 @@ Click==7.0
 cloudpickle==0.8.0
 coala-utils==0.5.1
 command-not-found==0.3
-cryptography==2.1.4
+cryptography>=2.3
 cupshelpers==1.0
 cycler==0.10.0
 dask==1.1.4
@@ -160,7 +160,7 @@ python3-openid==3.1.0
 pytz==2018.9
 PyWavelets==1.0.2
 pyxdg==0.25
-PyYAML==3.13
+pyyaml>=4.2b1
 pyzbar==0.1.8
 pyzmq==17.1.2
 qtconsole==4.4.3
