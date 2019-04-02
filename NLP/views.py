@@ -20,25 +20,26 @@ from . import text2info , audio2text
 
 from .models import NLP_MAPS
 
-def index(converted_text):
+def index(converted_text,current_user):
     template = 'NLP/index.html'
     map = NLP_MAPS()
     res = {}
     res = text2info.get_info(converted_text)
     print("here ", res)
-    gmaps = googlemaps.Client(key='AIzaSyBt50Fsl9GeVl0DBf1RIWorWpVfVxdlAV8')
+    gmaps = googlemaps.Client(key='AIzaSyCQQIUtvPUSukJ93gTexnAnz1uqXkz79MI')
     print("kiops")
     geocode_result = gmaps.geocode(res['Address'])
     print("asaasa")
     print(geocode_result)
     # print(geocode_result)
-    map.user_id = 2
+    map.user_id = current_user
     map.Address = res['Address']
     map.x = geocode_result[0]['geometry']['location']['lat']
     map.y = geocode_result[0]['geometry']['location']['lng']
     map.intensity = res['Intensity']
     map.Remarks = res['Remark']
-    map.save() 
+    map.save()
+    return
 
 def dashboard(request):
     address = NLP_MAPS.objects.all()
@@ -59,10 +60,10 @@ def manual_entry(request):
         map.intensity = 2
         map.Remarks = request.POST['remark']
         map.user_id = request.user
-        map.save() 
-        return render(request,'Home/home.html') 
+        map.save()
+        return render(request,'Home/home.html')
     else:
-        return render(request,'Home/home.html') 
+        return render(request,'Home/home.html')
 
 @csrf_exempt
 def audio_data(request):
@@ -78,10 +79,10 @@ def audio_data(request):
         map.y = geocode_result[0]['geometry']['location']['lng']
         map.intensity = 2
         map.Remarks = 2
-        map.save() 
+        map.save()
         print("jio")
     else:
-        print("get") 
+        print("get")
     message = "hello"
     return HttpResponse(message)
 
@@ -89,7 +90,7 @@ def audio_data(request):
 def home(request):
     user = User.objects.get(pk=1)
     print(user.organisation.organisation)
-    return render(request,'Home/home.html') 
+    return render(request,'Home/home.html')
 
 def maps(request):
     address = NLP_MAPS.objects.values('id','x','y','Address')
@@ -99,16 +100,19 @@ def maps(request):
 
 
 def upload(request):
-    print("fshuhdsi")
+    print("Started Uplaod")
     if request.method == 'POST' and request.FILES['myfile']:
-        print("ywuueiwi")
+        # print("ywuueiwi")
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
-        
+
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
+        print("sending file to Speech to Text API")
         converted_text = audio2text.get_text_from_audio(uploaded_file_url)
-        index(converted_text)
+        print("Computed Text Recieved")
+        current_user = request.user
+        index(converted_text,current_user)
         # file_path = os.path.join(BASE_DIR, uploaded_file_url)
         # pass_file_path(file_path)
         # index()
@@ -160,5 +164,3 @@ def create_profile(request):
         'user_form': user_form,
         # 'profile_form': profile_form
     })
-
-

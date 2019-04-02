@@ -17,7 +17,7 @@ import ast
 from NLP.audio2text import *
 
 
-accessKey = ' 401ee36d0e6845bbaee016135291e220'
+accessKey = '1a970c6aee584bd2aa0e2e535c84d6e4'
 url = 'westcentralus.api.cognitive.microsoft.com'
 path = '/text/analytics/v2.0/keyPhrases'
 result = []
@@ -31,11 +31,18 @@ def get_details(result):
 
 def get_info(converted_text):
     # 1.
+    print("Extracting Text")
     documents = extractText(converted_text)
     # 2. Perform Text Analysis
+    print("Getting Authentication for Text Analytics")
     result = TextAnalytics(documents)
+    print("Authenticated")
     result = result.decode("ascii")
+    print("Extractinf literal value")
     result = ast.literal_eval(result)
+    print("Values extracted successfully")
+    print(result)
+    print("results printed successfully")
     print(result, ",,,.... " , type(result['documents'][0]['keyPhrases']))
     print(result['documents'][0]['keyPhrases'][0])
     res = get_details(result)

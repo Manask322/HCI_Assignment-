@@ -5,7 +5,7 @@ import json
 import requests
 from I_Volenteer.settings import BASE_DIR
 # file_path = os.path.join(BASE_DIR, 'Audio_File/AudioTest2filtered.wav')
-YOUR_API_KEY = 'c0e3d18439e141ecb833126906855db5'
+YOUR_API_KEY = '10158e470cc3406a88f9d2451adde622'
 REGION = 'westus' # westus, eastasia, northeurope
 MODE = 'interactive'
 LANG = 'en-US'
