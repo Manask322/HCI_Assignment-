@@ -1,3 +1,4 @@
+#importing neccessary libraries
 from django.shortcuts import render
 from django.core import serializers
 import json
@@ -19,7 +20,7 @@ import googlemaps
 from . import text2info , audio2text
 
 from .models import NLP_MAPS
-
+#method for index file
 def index(converted_text,current_user):
     template = 'NLP/index.html'
     map = NLP_MAPS()
