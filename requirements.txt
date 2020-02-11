@@ -31,7 +31,7 @@ defusedxml==0.5.0
 dill==0.2.8.2
 distro-info===0.18ubuntu0.18.04.1
 dj-database-url==0.5.0
-Django==2.1.7
+Django==2.2.10
 django-allauth==0.39.1
 django-anymail==6.0
 django-bootstrap4==0.0.8
