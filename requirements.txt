@@ -40,7 +40,7 @@ django-filter==1.1.0
 django-heroku==0.3.1
 django-sendsms==0.3.1
 django-thumbs-v2==0.4.1
-djangorestframework==3.7.7
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 docutils==0.14
 entrypoints==0.3
