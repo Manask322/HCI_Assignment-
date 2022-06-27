@@ -164,7 +164,7 @@ pyyaml>=4.2b1
 pyzbar==0.1.8
 pyzmq==17.1.2
 qtconsole==4.4.3
-reportlab==3.4.0
+reportlab==3.5.55
 requests==2.21.0
 requests-oauthlib==1.2.0
 requests-unixsocket==0.1.5
